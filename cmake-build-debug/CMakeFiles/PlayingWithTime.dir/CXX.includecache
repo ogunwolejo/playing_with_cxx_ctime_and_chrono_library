@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/ogunw/Documents/scripts/cdevtutorial/tutorial1/PlayingWithTime/main.cpp
+iostream
+-
+ctime
+-
+
