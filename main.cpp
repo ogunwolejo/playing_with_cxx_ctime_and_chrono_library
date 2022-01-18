@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <ctime>
+#include <vector>
 
 int main(int argc, char* argv[]) {
     // the ctime library begins
@@ -37,8 +38,8 @@ int main(int argc, char* argv[]) {
 
     std::time(p_time_1);
     // using large values will result in a greater time period difference: e.g i < 1000 and j < 100
-    for(int i {0}; i < 1000; i++) {
-        for(int j {0}; j < 100; j++) {
+    for(int i {0}; i < 10; i++) {
+        for(int j {0}; j < 10; j++) {
             product_result = i * j;
             std::cout << product_result << std::endl;
         }
@@ -71,6 +72,54 @@ int main(int argc, char* argv[]) {
     std::time_t* p_calender_time {&calender_time};
     std::time(p_calender_time);
     std::cout << "The Calender time from the asctime function which shows the day, month, day, time and year is " << std::asctime(std::localtime(p_calender_time)) << std::endl;
+
+
+    /** The use of the clock function in the ctime library, this function returns the time in seconds it took for the system processor to finish a certain task */
+    std::cout << "The clock function in ctime library is "  << std::clock() << std::endl;
+
+    /**The mktime function, this function is use to make a calendar format time*/
+    std::time_t mk_time {};
+    std::time_t* p_mk_time{&mk_time};
+    std::tm* p_mk_tm {nullptr};
+
+    int y = 2022, m = 1, d = 17;
+    std::vector<std::string> weekday {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    std::time(p_mk_time);
+    p_mk_tm = std::localtime(p_mk_time);
+
+    p_mk_tm->tm_year = y - 1990;
+    p_mk_tm->tm_mon = m - 1;
+    p_mk_tm->tm_mday = d;
+
+
+    std::cout << "The result of the mktime function is -------------------------------\n ";
+    std::cout << p_mk_tm->tm_year << " " << p_mk_tm->tm_mon << " " << p_mk_tm->tm_mday  << std::endl;
+
+
+    /**The strftime() function in C++ converts the given date and time from a given calendar time time to a null-terminated multibyte character string according to a format string.
+     * size_t strftime( char* str, size_t count, const char* format, const tm* time );
+     * **/
+     std::time_t curr_time{};
+     std::time_t* p_curr_time{&curr_time};
+     std::tm * tm_curr_time{};
+
+     std::time(p_curr_time);
+     tm_curr_time = std::localtime(p_curr_time);
+
+     /** we then create variables were the return values will be written into **/
+     char date_string [100];
+     char time_string [100];
+     std::strftime(date_string, 100, "Today is %B %d, %Y", tm_curr_time);
+     std::strftime(time_string, 50, "Current time is %H:%M:%S", tm_curr_time);
+
+     std::cout << date_string  << std::endl;
+     std::cout << time_string  << std::endl;
+
+
+
+
+
 
 
     return 0;
