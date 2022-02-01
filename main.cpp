@@ -8,6 +8,8 @@
 #include <iostream>
 #include <ctime>
 #include <vector>
+#include <chrono>
+#include <cstdio>
 
 int main(int argc, char* argv[]) {
     // the ctime library begins
@@ -114,13 +116,39 @@ int main(int argc, char* argv[]) {
      std::strftime(time_string, 50, "Current time is %H:%M:%S", tm_curr_time);
 
      std::cout << date_string  << std::endl;
-     std::cout << time_string  << std::endl;
+     std::cout <<  time_string  << std::endl;
 
 
+     /**using the chrono library to see the diffference or simplicity has compared to the ctime*/
+     std::cout << "The period of the system_clock is " << std::chrono::system_clock::period::num << "/" << std::chrono::system_clock::period::den << std::endl;
+     std::cout << "The period of the steady_clock is " << std::chrono::steady_clock::period::num << "/" << std::chrono::steady_clock::period::den << std::endl;
 
 
+     std::chrono::microseconds mir {3600000000};
+     std::chrono::nanoseconds nas {mir};
+     std::chrono::milliseconds mil {std::chrono::duration_cast<std::chrono::milliseconds>(mir)};
+     std::chrono::seconds sec {std::chrono::duration_cast<std::chrono::seconds>(mir)};
 
+     std::cout << "The mircoseconds is " << mir.count() << std::endl;
+     std::cout << "The milliseconds is " << mil.count() << std::endl;
+     std::cout << "The nanoseconds value is " << nas.count() << std::endl;
+     std::cout << "The seconds value is " << sec.count() << std::endl;
 
+     std::chrono::system_clock::time_point t_p {std::chrono::system_clock::now()};
+     std::cout << "The system clock using the chrono library is " << t_p.time_since_epoch().count() << std::endl;
+
+     std::chrono::steady_clock::time_point t_ps {std::chrono::steady_clock::now()};
+     std::cout << "The steady clock using the chrono library is " << t_ps.time_since_epoch().count() << std::endl;
+
+     std::chrono::duration<int, std::ratio<1,1>> d_1 {3600};
+     std::chrono::duration<int, std::ratio<60, 1>> d_2 {3600};
+     std::cout << d_1.count() << std::endl;
+     std::cout << d_2.count() << std::endl;
+
+     std::chrono::steady_clock::time_point d_3 {std::chrono::steady_clock::now()};
+     std::chrono::steady_clock::time_point* p_d_3 {&d_3};
+
+     std::cout << p_d_3->time_since_epoch().count() << " " << d_3.time_since_epoch().count() << std::endl;
 
     return 0;
 }
